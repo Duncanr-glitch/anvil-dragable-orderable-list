@@ -797,36 +797,3 @@ textarea.anvil-component[disabled] {
 /* Shadow values taken from 
 https://stackoverflow.com/questions/30533055/calculating-shadow-values-for-all-material-design-elevations
 */
-
-  /* Roles for muuri */ 
- .anvil-role-grid {
-  position: relative;
-  overflow: hidden;
-  min-height: 20vh;
-
-}
-.anvil-role-item {
-  display: block;
-  position: absolute;
-  margin: 0px;
-  width: 100%;
-  z-index: 1;
-}
-.anvil-role-item.muuri-item-dragging {
-  z-index: 3;
-}
-.anvil-role-item.muuri-item-releasing {
-  z-index: 2;
-}
-.anvil-role-item.muuri-item-hidden {
-  z-index: 0;
-}
-.anvil-role-item.muuri-item-dragging {
-  z-index: 3;
-}
-.anvil-role-item.muuri-item-releasing {
-  z-index: 2;
-}
-.anvil-role-item.muuri-item-hidden {
-  z-index: 0;
-}
