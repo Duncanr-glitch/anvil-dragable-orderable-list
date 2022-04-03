@@ -10,3 +10,4 @@ components:
     grid_position: RKKGUT,RPQDDD
   components: []
 is_package: true
+custom_component: true
