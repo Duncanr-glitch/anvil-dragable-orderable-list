@@ -6,15 +6,7 @@ components:
   properties: {}
   name: flow_panel_1
   layout_properties: {grid_position: 'VRXBPJ,GWSIVP'}
-  components:
-  - type: Button
-    properties: {role: primary-color, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Add label, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: 'fa:plus'}
-    name: add_btn
-    layout_properties: {grid_position: 'YJIXGE,ERYNNO'}
-    event_bindings: {click: add_btn_click}
+  components: []
 - type: ColumnPanel
   properties: {}
   name: list_panel
