@@ -1,7 +1,8 @@
 properties:
 - {name: order_title, type: string, default_value: Order, default_binding_prop: true}
 is_package: true
-events: []
+events:
+- {name: list_changed, description: when the length or order of the list change, default_event: true}
 custom_component: true
 components:
 - type: FlowPanel

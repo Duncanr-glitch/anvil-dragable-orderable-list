@@ -19,6 +19,7 @@ class OrderableList(OrderableListTemplate):
     
   def _list_changed(self, **eventargs):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
+    self.raise_event("list_changed")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""
@@ -29,14 +30,12 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()    
     comps.append(ListItem(text=text))
     self._dragable_list.components = comps
-    self._dragable_list.refresh()
 
   def remove_drag_item(self, index):
     """Method to remove items from the draggable list"""
     comps = self._dragable_list.get_sorted_components()
     comps.remove(comps[index])
     self._dragable_list.components = comps
-    self._dragable_list.refresh()
     
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""
