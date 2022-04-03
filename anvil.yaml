@@ -4,7 +4,7 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: Form1}
-package_name: FORUM_dragable_list_with_events
+package_name: Dragable_List
 allow_embedding: false
 name: Draggable List
 runtime_options: {version: 2, client_version: '3', server_version: python3-full}
