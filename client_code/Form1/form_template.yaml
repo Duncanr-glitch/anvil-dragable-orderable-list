@@ -8,6 +8,10 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
+  - type: Button
+    properties: {text: button_1}
+    name: button_1
+    layout_properties: {grid_position: 'VGQDMK,KJVFBW'}
   - type: form:OrderableList
     properties: {}
     name: orderable_list_1
