@@ -15,11 +15,13 @@ class OrderableList(OrderableListTemplate):
     self.list_panel.add_component(self._dragable_list)
     
   def _list_changed(self, **eventargs):
+    print("order")
     self.order_label.text = f'Order = {[comp.get_text() for comp in self._dragable_list.get_sorted_components()]}'
     
 
   def add_drag_item(self, text):
     """This method is called when the column panel is shown on the screen"""
+    print("add")
     comps = self._dragable_list.get_sorted_components()    
     comps.append(ListItem(text=text))
     self._dragable_list.components = comps
@@ -29,7 +31,7 @@ class OrderableList(OrderableListTemplate):
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""
     self.add_drag_item("hello world!")
-#     self.add_drag_item("again!")
+    self.add_drag_item("again!")
     pass
 
 
