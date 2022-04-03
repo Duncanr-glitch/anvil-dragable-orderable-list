@@ -3,8 +3,8 @@ from anvil import *
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ..DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
-from ..ListItem import ListItem
+from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
+from .ListItem import ListItem
 
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
@@ -15,13 +15,11 @@ class OrderableList(OrderableListTemplate):
     self.list_panel.add_component(self._dragable_list)
     
   def _list_changed(self, **eventargs):
-    print("order")
     self.order_label.text = f'Order = {[comp.get_text() for comp in self._dragable_list.get_sorted_components()]}'
     
 
   def add_drag_item(self, text):
     """This method is called when the column panel is shown on the screen"""
-    print("add")
     comps = self._dragable_list.get_sorted_components()    
     comps.append(ListItem(text=text))
     self._dragable_list.components = comps
