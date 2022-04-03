@@ -6,6 +6,7 @@ from anvil.tables import app_tables
 from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
 from .ListItem import ListItem
 
+
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
