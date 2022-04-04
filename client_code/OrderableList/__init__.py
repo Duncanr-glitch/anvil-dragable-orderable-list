@@ -37,6 +37,9 @@ class OrderableList(OrderableListTemplate):
     comps.remove(comps[index])
     self._dragable_list.components = comps
     
+  def remove_all(self):
+    self._dragable_list.components = []
+    
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""
     _html_injector.css("""/* Roles for muuri */ 
