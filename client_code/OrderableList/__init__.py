@@ -19,7 +19,7 @@ class OrderableList(OrderableListTemplate):
     
   def _list_changed(self, **eventargs):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
-    self.raise_event("list_changed")
+    self.raise_event("7list_changed")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""

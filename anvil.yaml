@@ -9,7 +9,7 @@ startup: {type: form, module: Form1}
 package_name: Dragable_List
 allow_embedding: false
 name: Draggable List
-runtime_options: {version: 2, client_version: '3', server_version: python3-full}
+runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 metadata: {title: Dragable List}
 startup_form: null
 native_deps: {head_html: '<script src="https://cdn.jsdelivr.net/npm/muuri@0.9.3/dist/muuri.min.js"></script>'}
