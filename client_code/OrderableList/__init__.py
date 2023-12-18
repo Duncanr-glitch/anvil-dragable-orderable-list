@@ -25,11 +25,15 @@ class OrderableList(OrderableListTemplate):
     """Method to get the sorted list with each item's text"""
     return [comp.get_text() for comp in self._dragable_list.get_sorted_components()]
     
-  def add_drag_item(self, text):
+  def add_drag_item(self, new_texts):
     """Method to add items to the draggable list"""
     comps = self._dragable_list.get_sorted_components()    
-    comps.append(ListItem(text=text))
+    if isinstance(new_texts, str):
+      comps.append(ListItem(text=new_texts))
+    else:
+      comps += [ListItem(text=text) for text in new_texts]
     self._dragable_list.components = comps
+        
 
   def remove_drag_item(self, index):
     """Method to remove items from the draggable list"""
