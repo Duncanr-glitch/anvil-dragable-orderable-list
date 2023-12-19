@@ -63,7 +63,7 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()
     add_text = ""
     if self.numeration == "numerical":
-      add_text = f"{len(comps)}. "
+      add_text = f"{len(comps)+1}. "
     elif self.numeration == "lower-alpha" or self.numeration == "upper-alpha":
       if not len(comps):
         add_text = f'{generate_letter_combinations("", 1, self.numeration == "lower-alpha")}. '
