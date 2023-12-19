@@ -10,4 +10,12 @@ class ListItem(ListItemTemplate):
     self.init_components(**properties)
     self.text = text
     self.label_1.text = self.text
+
+  @property
+  def text(self):
+    return self._text
+  @text.setter
+  def text(self, value):
+    self._text = value
+    self.label_1.text = value
     

@@ -15,6 +15,7 @@ class OrderableList(OrderableListTemplate):
     self._dragable_list = DragableList()
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
+    self.adding = False
 
 
   def _set_numeration_text(self, list_len, list_components):
@@ -98,23 +99,33 @@ class OrderableList(OrderableListTemplate):
     
     return add_text
 
+  def _get_list_item_value(self, comp):
+    if self.numeration:
+      return "".join(comp.text.split(". ")[1:])
+    return comp.text
+
   def _list_changed(self, **eventargs):
+    print([comp.text for comp in self._dragable_list.get_sorted_components()])
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
     comps = self._dragable_list.get_sorted_components()
-    print([comp.text for comp in comps])
-    if self.numeration:
+    # print("before", [comp.text for comp in comps])
+    if self.numeration and not self.adding:
       for index, comp in enumerate(comps):
-        comp.text = f'{self._set_numeration_text(index+1, comps)}{"".join(comp.text.split(". ")[1:])}'
+        print(index, comp.text)
+        current_value = self._get_list_item_value(comp)
+        comp.text = self._get_list_item_value(comp)
+        # comp.text = f'{self._set_numeration_text(index+1, comps)}{current_value}'
+    # print("after", [comp.text for comp in comps])
+    self.adding = False
     self.raise_event("x-list_changed")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""
-    if self.numeration:
-      return ["".join(comp.text.split(". ")[1:]) for comp in self._dragable_list.get_sorted_components()]
-    return [comp.text for comp in self._dragable_list.get_sorted_components()]
+    return [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
     
   def add_drag_item(self, new_texts):
     """Method to add items to the draggable list"""
+    self.adding = True
     comps = self._dragable_list.get_sorted_components()
     if isinstance(new_texts, str):
       comps.append(ListItem(text=f"{self._set_numeration_text(len(comps)+1, comps)}{new_texts}"))
