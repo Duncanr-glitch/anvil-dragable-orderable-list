@@ -23,15 +23,55 @@ class OrderableList(OrderableListTemplate):
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""
-    return [comp.get_text() for comp in self._dragable_list.get_sorted_components()]
+    return [comp.text for comp in self._dragable_list.get_sorted_components()]
     
   def add_drag_item(self, new_texts):
     """Method to add items to the draggable list"""
+    def generate_letter_combinations(start, count, is_lower):
+        """
+        Generate a sequence of letter combinations starting from the given start.
+        :param start: The starting combination (e.g., 'zz').
+        :param count: The number of combinations to generate.
+        :param is
+        :return: A list of letter combinations.
+        """
+        def increment_string(s):
+            """
+            Increment a string in a way similar to how numbers are incremented.
+            'a' -> 'b', ..., 'z' -> 'aa', 'ab' -> 'ac', ..., 'zz' -> 'aaa'
+            """
+            if s == '':
+                if is_lower:
+                  return 'a'
+                return "A"
+            elif s[-1] == 'z':
+                return increment_string(s[:-1]) + 'a'
+            elif s[-1] == "Z":
+                return increment_string(s[:-1]) + 'A'
+            else:
+                return s[:-1] + chr(ord(s[-1]) + 1)
+    
+        current = start
+        results = []
+        for _ in range(count):
+            current = increment_string(current)
+            results.append(current)
+        if count == 1:
+          return results[0]
+        return results      
+
     comps = self._dragable_list.get_sorted_components()
-    if not self.numeration:
-      adding_text = ""
+    add_text = ""
+    if self.numeration == "numerical":
+      add_text = f"{len(comps)}. "
+    elif self.numeration == "lower-alpha" or self.numeration == "upper-alpha":
+      if not len(comps):
+        add_text = f'{generate_letter_combinations("", 1, self.numeration == "lower-alpha")}. '
+      else:
+        add_text = f'{generate_letter_combinations(comps[-1].text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
+      print(add_text)
     if isinstance(new_texts, str):
-      comps.append(ListItem(text=new_texts))
+      comps.append(ListItem(text=f"{add_text}{new_texts}"))
     else:
       comps += [ListItem(text=text) for text in new_texts]
     self._dragable_list.components = comps

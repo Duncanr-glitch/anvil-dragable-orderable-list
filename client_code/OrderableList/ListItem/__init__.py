@@ -8,9 +8,6 @@ class ListItem(ListItemTemplate):
   def __init__(self, text, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.label_1.text = text
-    
-  def get_text(self):
-    return self.label_1.text
-
+    self.text = text
+    self.label_1.text = self.text
     
