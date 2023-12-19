@@ -27,7 +27,9 @@ class OrderableList(OrderableListTemplate):
     
   def add_drag_item(self, new_texts):
     """Method to add items to the draggable list"""
-    comps = self._dragable_list.get_sorted_components()    
+    comps = self._dragable_list.get_sorted_components()
+    if not self.numeration:
+      adding_text = ""
     if isinstance(new_texts, str):
       comps.append(ListItem(text=new_texts))
     else:
