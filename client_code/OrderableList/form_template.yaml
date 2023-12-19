@@ -1,9 +1,9 @@
 properties:
 - {name: order_title, type: string, default_value: Order, default_binding_prop: true}
 - {name: numeration, type: string, default_value: '', important: true, description: "Kind\
-    \ of numeration to add to the ordered list. \n\nOptions:\nlower-alpha: a. b. c.\
-    \ etc.\nupper-alpha: A.B. C. etc.\nnumerical: 1. 2. 3.\nlower-roman: i. ii. III.\
-    \ iv. etc\nupper-roman: I. II. III. IV. etc."}
+    \ of numeration to add to the ordered list. \n\nOptions:\nnumerical: 1. 2. 3.\
+    \ etc.\nlower-alpha: a. b. c. etc.\nupper-alpha: A.B. C. etc.\nlower-roman: i.\
+    \ ii. III. iv. etc\nupper-roman: I. II. III. IV. etc."}
 is_package: true
 events:
 - {name: list_changed, description: when the length or order of the list change, default_event: true}

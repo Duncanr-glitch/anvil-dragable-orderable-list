@@ -14,8 +14,8 @@ class Form1(Form1Template):
 
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
-    # self.orderable_list_1.add_drag_item([f"{self.text_box_1.text}: {i}" for i in range(3)])
-    self.orderable_list_1.add_drag_item(self.text_box_1.text)
+    self.orderable_list_1.add_drag_item([f"{self.text_box_1.text}: {i}" for i in range(3)])
+    # self.orderable_list_1.add_drag_item(self.text_box_1.text)
 
   def button_2_click(self, **event_args):
     """This method is called when the button is clicked"""

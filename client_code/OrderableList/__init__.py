@@ -15,18 +15,9 @@ class OrderableList(OrderableListTemplate):
     self._dragable_list = DragableList()
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
-    
-    
-  def _list_changed(self, **eventargs):
-    self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
-    self.raise_event("x-list_changed")
-    
-  def get_ordered_comps(self):
-    """Method to get the sorted list with each item's text"""
-    return [comp.text for comp in self._dragable_list.get_sorted_components()]
-    
-  def add_drag_item(self, new_texts):
-    """Method to add items to the draggable list"""
+
+
+  def _set_numeration_text(self, list_len, list_components):
     def generate_letter_combinations(start, count, is_lower):
         """
         Generate a sequence of letter combinations starting from the given start.
@@ -59,23 +50,71 @@ class OrderableList(OrderableListTemplate):
         if count == 1:
           return results[0]
         return results      
+    def int_to_roman(num, is_lower):
+        """
+        Convert an integer to a Roman numeral.
+        """
+        val = [
+            1000, 900, 500, 400,
+            100, 90, 50, 40,
+            10, 9, 5, 4,
+            1
+            ]
+        roman_nums_upper = [
+            "M", "CM", "D", "CD",
+            "C", "XC", "L", "XL",
+            "X", "IX", "V", "IV",
+            "I"
+            ]
+        roman_nums_lower = [
+          'm', 'cm', 'd', 'cd',
+          'c', 'xc', 'l', 'xl',
+          'x', 'ix', 'v', 'iv',
+          'i'
+          ]
+        roman_num = ''
+        i = 0
+        while num > 0:
+            for _ in range(num // val[i]):
+                if is_lower:
+                  roman_num += roman_nums_lower[i]
+                else:
+                  roman_num += roman_nums_upper[i]
+                num -= val[i]
+            i += 1
+        return roman_num
 
-    comps = self._dragable_list.get_sorted_components()
     add_text = ""
+    
     if self.numeration == "numerical":
-      add_text = f"{len(comps)+1}. "
+      add_text = f"{list_len}. "
     elif self.numeration == "lower-alpha" or self.numeration == "upper-alpha":
-      if not len(comps):
+      if not list_len-1:
         add_text = f'{generate_letter_combinations("", 1, self.numeration == "lower-alpha")}. '
       else:
-        add_text = f'{generate_letter_combinations(comps[-1].text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
-      print(add_text)
+        add_text = f'{generate_letter_combinations(list_components[-1].text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
+    elif self.numeration == "lower-roman" or self.numeration == "upper-roman":
+      add_text = f'{int_to_roman(list_len, self.numeration == "lower-roman")}. '
+    
+    return add_text
+
+  def _list_changed(self, **eventargs):
+    self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
+    self.raise_event("x-list_changed")
+    
+  def get_ordered_comps(self):
+    """Method to get the sorted list with each item's text"""
+    return [comp.text for comp in self._dragable_list.get_sorted_components()]
+    
+  def add_drag_item(self, new_texts):
+    """Method to add items to the draggable list"""
+    comps = self._dragable_list.get_sorted_components()
     if isinstance(new_texts, str):
-      comps.append(ListItem(text=f"{add_text}{new_texts}"))
+      comps.append(ListItem(text=f"{self._set_numeration_text(len(comps)+1, comps)}{new_texts}"))
     else:
-      comps += [ListItem(text=text) for text in new_texts]
-    self._dragable_list.components = comps
-        
+      for text in new_texts:
+        comps.append(ListItem(text=f"{self._set_numeration_text(len(comps)+1, comps)}{text}"))
+    self._dragable_list.components = comps    
 
   def remove_drag_item(self, index):
     """Method to remove items from the draggable list"""
