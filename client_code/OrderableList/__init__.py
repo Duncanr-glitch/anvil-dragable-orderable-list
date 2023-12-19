@@ -100,10 +100,17 @@ class OrderableList(OrderableListTemplate):
 
   def _list_changed(self, **eventargs):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
+    comps = self._dragable_list.get_sorted_components()
+    print([comp.text for comp in comps])
+    if self.numeration:
+      for index, comp in enumerate(comps):
+        comp.text = f'{self._set_numeration_text(index+1, comps)}{"".join(comp.text.split(". ")[1:])}'
     self.raise_event("x-list_changed")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""
+    if self.numeration:
+      return ["".join(comp.text.split(". ")[1:]) for comp in self._dragable_list.get_sorted_components()]
     return [comp.text for comp in self._dragable_list.get_sorted_components()]
     
   def add_drag_item(self, new_texts):
