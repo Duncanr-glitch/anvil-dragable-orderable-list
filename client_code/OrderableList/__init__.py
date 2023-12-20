@@ -7,6 +7,8 @@ from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
 from .ListItem import ListItem
 from anvil_extras.utils._component_helpers import _html_injector
 
+import time
+
 
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
@@ -110,17 +112,11 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()
     # print("before", [comp.text for comp in comps])
     if self.numeration and not self.adding:
-      print("ordering")
-      self._dragable_list.components = []
+      self.remove_drag_item(range(0, 2))
+      # self._dragable_list.components = []
+      # time.sleep(.01)
       comp_texts = [self._get_list_item_value(comp) for comp in comps]
-      # print(self._dragable_list.components)
       # self.add_drag_item(comp_texts)
-      # for index, comp in enumerate(comps):
-      #   print(index, comp.text)
-      #   current_value = self._get_list_item_value(comp)
-      #   comp.text = self._get_list_item_value(comp)
-        # comp.text = f'{self._set_numeration_text(index+1, comps)}{current_value}'
-    # print("after", [comp.text for comp in comps])
     self.adding = False
     self.raise_event("x-list_changed")
     
@@ -139,10 +135,14 @@ class OrderableList(OrderableListTemplate):
         comps.append(ListItem(text=f"{self._set_numeration_text(len(comps)+1, comps)}{text}"))
     self._dragable_list.components = comps    
 
-  def remove_drag_item(self, index):
+  def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
     comps = self._dragable_list.get_sorted_components()
-    comps.remove(comps[index])
+    if isinstance(indices, int):
+      comps.remove(comps[indices])
+    elif isinstance(indices, range):
+      print(comps[:indices.start] + comps[indices.start+1:indices.stop] + comps[indices.stop+1:])
+      comps = comps[:indices.start] + comps[indices.start+1:indices.stop] + comps[indices.stop+1:]
     self._dragable_list.components = comps
     
   def remove_all(self):
