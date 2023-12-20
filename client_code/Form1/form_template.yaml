@@ -13,6 +13,11 @@ components:
     name: text_box_1
     layout_properties: {grid_position: 'JXJWMN,TCDRBE'}
     event_bindings: {pressed_enter: text_box_1_pressed_enter}
+  - name: button_3
+    properties: {text: Change Remove Props}
+    type: Button
+    layout_properties: {grid_position: 'JXJWMN,LEXYGH'}
+    event_bindings: {click: button_3_click}
   - type: Button
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Drag Item, font_size: null, font: '',

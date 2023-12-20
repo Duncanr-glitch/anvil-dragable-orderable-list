@@ -9,6 +9,10 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.orderable_list_1.remove_button_properties = {
+      "background": "red",
+      "foreground": "yellow"
+    }
 
     # Any code you write here will run when the form opens.
 
@@ -20,5 +24,12 @@ class Form1(Form1Template):
   def button_2_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.orderable_list_1.remove_drag_item([int(ind) for ind in self.text_box_2.text.split(",")])
+
+  def button_3_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.orderable_list_1.remove_button_properties = {
+      "background": "yellow",
+      "foreground": "red"
+    }
 
 

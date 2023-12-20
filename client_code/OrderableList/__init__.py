@@ -7,9 +7,6 @@ from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
 from .ListItem import ListItem
 from anvil_extras.utils._component_helpers import _html_injector
 
-import time
-
-
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -19,6 +16,18 @@ class OrderableList(OrderableListTemplate):
     self.list_panel.add_component(self._dragable_list)
     self.adding = False
 
+  @property
+  def remove_button_properties(self):
+    return self._remove_button_properties
+
+  @remove_button_properties.setter
+  def remove_button_properties(self, value):
+    self._remove_button_properties = value
+    if value is not None:
+      for prop, val in value.items():
+        if self._dragable_list.components is not None:
+          for comp in self._dragable_list.components:
+            setattr(comp.remove_button, prop, val)
 
   def _set_numeration_text(self, list_len, list_components):
     def generate_letter_combinations(start, count, is_lower):
@@ -95,7 +104,7 @@ class OrderableList(OrderableListTemplate):
       if not list_len-1:
         add_text = f'{generate_letter_combinations("", 1, self.numeration == "lower-alpha")}. '
       else:
-        add_text = f'{generate_letter_combinations(list_components[-1].text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
+        add_text = f'{generate_letter_combinations(list_components[-1].item_text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
     elif self.numeration == "lower-roman" or self.numeration == "upper-roman":
       add_text = f'{int_to_roman(list_len, self.numeration == "lower-roman")}. '
     
@@ -103,8 +112,8 @@ class OrderableList(OrderableListTemplate):
 
   def _get_list_item_value(self, comp):
     if self.numeration:
-      return "".join(comp.text.split(". ")[1:])
-    return comp.text
+      return "".join(comp.item_text.split(". ")[1:])
+    return comp.item_text
 
   def _list_changed(self, **eventargs):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
@@ -127,17 +136,19 @@ class OrderableList(OrderableListTemplate):
     if isinstance(new_texts, str):
       comps_len = len(comps)
       comps.append(ListItem(
-        text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
+        item_text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
         index=comps_len,
-        allow_remove=self.allow_remove
+        allow_remove=self.allow_remove,
+        **self.remove_button_properties
       ))
     else:
       for text in new_texts:
         comps_len = len(comps)
         comps.append(ListItem(
-          text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
+          item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
           index=comps_len,
-          allow_remove=self.allow_remove
+          allow_remove=self.allow_remove,
+          **self.remove_button_properties
         ))
     self._dragable_list.components = comps    
 
