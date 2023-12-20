@@ -136,9 +136,10 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()
     if isinstance(indices, int):
       comps.remove(comps[indices])
-    elif isinstance(indices, range):
-      print(comps[:indices.start] + comps[indices.start+1:indices.stop] + comps[indices.stop+1:])
-      comps = comps[:indices.start] + comps[indices.start+1:indices.stop] + comps[indices.stop+1:]
+    else:
+      indices.sort(reverse=True)
+      for index in indices:
+        comps.remove(comps[index])
     self._dragable_list.components = comps
     
   def remove_all(self):
