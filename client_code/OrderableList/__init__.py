@@ -126,11 +126,19 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()
     if isinstance(new_texts, str):
       comps_len = len(comps)
-      comps.append(ListItem(text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}"))
+      comps.append(ListItem(
+        text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
+        index=comps_len,
+        allow_remove=self.allow_remove
+      ))
     else:
       for text in new_texts:
         comps_len = len(comps)
-        comps.append(ListItem(text=f"{self._set_numeration_text(comps_len+1, comps)}{text}"))
+        comps.append(ListItem(
+          text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
+          index=comps_len,
+          allow_remove=self.allow_remove
+        ))
     self._dragable_list.components = comps    
 
   def remove_drag_item(self, indices):

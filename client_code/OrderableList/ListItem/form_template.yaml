@@ -12,7 +12,8 @@ components:
     name: label_1
     layout_properties: {grid_position: 'YCPUXX,VWCIPC'}
   - name: remove_button
-    properties: {text: '', icon: 'fa:remove', align: left, icon_align: right_edge}
+    properties: {text: '', icon: 'fa:remove', align: left, icon_align: top}
     type: Button
     layout_properties: {grid_position: 'YCPUXX,VUKETJ'}
+    event_bindings: {click: remove_button_click}
 is_package: true
