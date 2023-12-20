@@ -22,7 +22,7 @@ components:
     layout_properties: {grid_position: 'VGQDMK,KJVFBW'}
     event_bindings: {click: button_1_click}
   - type: form:OrderableList
-    properties: {order_title: Order Test, numeration: lower-alpha}
+    properties: {order_title: Order Test, numeration: upper-roman}
     name: orderable_list_1
     layout_properties: {grid_position: 'OOJTJH,RESJUJ'}
   - type: TextBox

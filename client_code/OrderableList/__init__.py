@@ -107,16 +107,12 @@ class OrderableList(OrderableListTemplate):
     return comp.text
 
   def _list_changed(self, **eventargs):
-    print([comp.text for comp in self._dragable_list.get_sorted_components()])
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
-    comps = self._dragable_list.get_sorted_components()
-    # print("before", [comp.text for comp in comps])
+
     if self.numeration and not self.adding:
-      self.remove_drag_item(range(0, 2))
-      # self._dragable_list.components = []
-      # time.sleep(.01)
-      comp_texts = [self._get_list_item_value(comp) for comp in comps]
-      # self.add_drag_item(comp_texts)
+      comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
+      self._dragable_list.components = []
+      self.add_drag_item(comp_texts)
     self.adding = False
     self.raise_event("x-list_changed")
     
