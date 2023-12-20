@@ -110,10 +110,15 @@ class OrderableList(OrderableListTemplate):
     comps = self._dragable_list.get_sorted_components()
     # print("before", [comp.text for comp in comps])
     if self.numeration and not self.adding:
-      for index, comp in enumerate(comps):
-        print(index, comp.text)
-        current_value = self._get_list_item_value(comp)
-        comp.text = self._get_list_item_value(comp)
+      print("ordering")
+      self._dragable_list.components = []
+      comp_texts = [self._get_list_item_value(comp) for comp in comps]
+      # print(self._dragable_list.components)
+      # self.add_drag_item(comp_texts)
+      # for index, comp in enumerate(comps):
+      #   print(index, comp.text)
+      #   current_value = self._get_list_item_value(comp)
+      #   comp.text = self._get_list_item_value(comp)
         # comp.text = f'{self._set_numeration_text(index+1, comps)}{current_value}'
     # print("after", [comp.text for comp in comps])
     self.adding = False
