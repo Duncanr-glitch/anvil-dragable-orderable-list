@@ -24,9 +24,10 @@ class DragableList(DragableListTemplate):
 
   @components.setter
   def components(self, comps) :
-      self._comps = comps
-      self._update_list()
-      self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
+      if self._comps != comps:
+        self._comps = comps
+        self._update_list()
+        self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
   def refresh(self):
     if self._muuri_grid:
