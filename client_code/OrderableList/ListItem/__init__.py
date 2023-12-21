@@ -10,6 +10,9 @@ class ListItem(ListItemTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+
+    augment.add_event(self.item_label, "dblclick")
+    self.item_label.set_event_handler()
     
     self.item_box = TextBox()
     def edit_item_text(self, **event_args):
