@@ -10,16 +10,14 @@ class ListItem(ListItemTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    augment.set_event_handler(self.item_label, "dblclick", self.start_edit_item_text)
 
-    augment.add_event(self.item_label, "dblclick")
-    self.item_label.set_event_handler()
-    
+    self.item_edit_card = ColumnPanel(role="card")
     self.item_box = TextBox()
-    def edit_item_text(self, **event_args):
-      self.item_box.remove_from_parent()
+    self.item_edit_card.add_component(self.item_box)
 
-    self.item_box.add_event_handler('pressed_enter', edit_item_text)
-    self.item_box.add_event_handler('lost_focus', edit_item_text)
+    self.item_box.add_event_handler('pressed_enter', self.set_edited_item_text)
+    self.item_box.add_event_handler('lost_focus', self.set_edited_item_text)
     
     self.item_label.text = self.item_text
     for prop, val in properties.items():
@@ -36,4 +34,21 @@ class ListItem(ListItemTemplate):
 
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.parent.parent.parent.parent.parent.remove_drag_item(self.index)
+    self.orderable_list.remove_drag_item(self.index)
+  def start_edit_item_text(self, **event_args):
+    self.item_lbl_card.remove_from_parent()
+    self.add_component(self.item_edit_card)
+    self.item_box.focus()
+    self.item_box.text = self.orderable_list._get_list_item_value(self)
+    
+  def set_edited_item_text(self, **event_args):
+    try:
+      self.item_edit_card.remove_from_parent()
+      self.add_component(self.item_lbl_card)
+    except ValueError:
+      # This is for preventing both lost_focus and pressed_enter triggering
+      pass
+
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    self.orderable_list = self.parent.parent.parent.parent.parent
