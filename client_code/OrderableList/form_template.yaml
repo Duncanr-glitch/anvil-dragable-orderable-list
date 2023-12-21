@@ -9,6 +9,14 @@ properties:
 - {name: item_editable, type: boolean, default_value: false, important: true}
 - {name: editable, type: boolean, default_value: true, important: true}
 - {name: removal_confirm, type: boolean, default_value: false, important: true}
+- {name: removal_alert_message, type: string, default_value: 'Are you sure you want
+    to remove {item_text}?', important: true, description: 'Message to display to
+    confirm when removing an item in the list.
+
+
+    If you want to include the item''s text in the confirmation message, include {item_text}
+    in the property value.'}
+- {name: confirm_removal, type: boolean, default_value: false, important: true}
 is_package: true
 events:
 - {name: list_changed, description: when the length or order of the list change, default_event: true}

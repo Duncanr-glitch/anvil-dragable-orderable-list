@@ -9,7 +9,7 @@ components:
   layout_properties: {grid_position: 'DAYONI,RRKOCM'}
   components:
   - type: Label
-    properties: {}
+    properties: {role: null}
     name: item_label
     layout_properties: {grid_position: 'YCPUXX,VWCIPC SMEWRN,KCQOVF'}
   - name: remove_button

@@ -14,7 +14,7 @@ class ListItem(ListItemTemplate):
     self.allow_remove = False
     
     self.item_edit_card = ColumnPanel(role="card")
-    self.item_box = TextBox()
+    self.item_box = TextBox(role="inline-popup")
     self.item_edit_card.add_component(self.item_box)
 
     self.item_box.add_event_handler('pressed_enter', self.set_edited_item_text)
@@ -57,7 +57,12 @@ class ListItem(ListItemTemplate):
 
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    self.orderable_list.remove_drag_item(self.index)
+    confirm_remove = True
+    if self.orderable_list.confirm_removal:
+      confirm_remove = confirm(self.orderable_list.removal_alert_message.replace("{item_text}", "self.item_text"))
+
+    if confirm_remove:
+      self.orderable_list.remove_drag_item(self.index)
 
   def start_edit_item_text(self, **event_args):
     self.item_lbl_card.remove_from_parent()
