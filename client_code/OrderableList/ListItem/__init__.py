@@ -30,7 +30,7 @@ class ListItem(ListItemTemplate):
   @item_text.setter
   def item_text(self, value):
     self._item_text = value
-    self.item_label.item_text = value
+    self.item_label.text = value
 
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -45,6 +45,8 @@ class ListItem(ListItemTemplate):
     try:
       self.item_edit_card.remove_from_parent()
       self.add_component(self.item_lbl_card)
+      if self.orderable_list.numeration:
+        self.item_text = f"{self.item_label.text.split('. ')[0]}. {self.item_box.text}"
     except ValueError:
       # This is for preventing both lost_focus and pressed_enter triggering
       pass
