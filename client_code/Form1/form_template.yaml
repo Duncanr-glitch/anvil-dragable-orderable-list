@@ -9,10 +9,10 @@ components:
   layout_properties: {slot: default}
   components:
   - type: TextBox
-    properties: {}
+    properties: {role: null}
     name: text_box_1
     layout_properties: {grid_position: 'JXJWMN,TCDRBE'}
-    event_bindings: {pressed_enter: text_box_1_pressed_enter}
+    event_bindings: {}
   - name: button_3
     properties: {text: Change Remove Props}
     type: Button
@@ -27,7 +27,8 @@ components:
     layout_properties: {grid_position: 'VGQDMK,KJVFBW'}
     event_bindings: {click: button_1_click}
   - type: form:OrderableList
-    properties: {order_title: Order Test, numeration: upper-roman, allow_remove: true}
+    properties: {order_title: Order Test, numeration: '', allow_remove: true, item_editable: true,
+      removal_confirm: true, confirm_removal: false}
     name: orderable_list_1
     layout_properties: {grid_position: 'OOJTJH,RESJUJ'}
   - type: TextBox
