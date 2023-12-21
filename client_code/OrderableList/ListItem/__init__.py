@@ -38,11 +38,14 @@ class ListItem(ListItemTemplate):
     return self._editable
   @editable.setter
   def editable(self, value):
-    self._ediable = value
+    self._editable = value
     if value:
       augment.set_event_handler(self.item_lbl_card, "dblclick", self.start_edit_item_text)
     else:
-      augment.remove_event_handler(self.item_lbl_card, "dblclick", self.start_edit_item_text)
+      try:
+        augment.remove_event_handler(self.item_lbl_card, "dblclick", self.start_edit_item_text)
+      except (ValueError, LookupError):
+        print("Event doesn't exist, skipping")
 
   @property
   def allow_remove(self):
