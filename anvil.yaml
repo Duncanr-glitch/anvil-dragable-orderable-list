@@ -1,6 +1,9 @@
 dependencies:
 - app_id: C6ZZPAPN4YYF5NVJ
   version: {dev: false}
+- dep_id: dep_8rw5bmq44li1kd
+  version: {dev: false}
+  resolution_hints: {app_id: 2CWKZDFSU43ROU6N, name: Clone of Anvil Extras, package_name: anvil_extras}
 services:
 - source: /runtime/services/tables.yml
   client_config: {}

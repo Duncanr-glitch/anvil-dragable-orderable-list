@@ -147,7 +147,7 @@ class OrderableList(OrderableListTemplate):
         comps.append(ListItem(
           item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
           index=comps_len,
-          allow_remove=self.allow_remove,
+          editable=self.item_editable,
           **self.remove_button_properties
         ))
     self._dragable_list.components = comps    

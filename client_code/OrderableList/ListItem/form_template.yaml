@@ -21,6 +21,4 @@ is_package: true
 custom_component: true
 properties:
 - {name: item_text, type: string, default_value: '', important: true, default_binding_prop: true}
-- {name: allow_remove, type: boolean, default_value: false, important: true}
 - {name: index, type: number, important: true}
-- {name: prop, type: string, default_value: '', important: true}
