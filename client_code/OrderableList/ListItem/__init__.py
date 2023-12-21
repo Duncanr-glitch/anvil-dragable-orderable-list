@@ -5,7 +5,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 class ListItem(ListItemTemplate):
-  def __init__(self, item_text, index, allow_remove=True, **properties):
+  def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.item_text = item_text
