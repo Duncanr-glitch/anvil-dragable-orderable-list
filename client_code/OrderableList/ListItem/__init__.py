@@ -8,13 +8,11 @@ class ListItem(ListItemTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.item_text = item_text
-    self.index = index
     
     self.label_1.text = self.item_text
     for prop, val in properties.items():
       setattr(self.remove_button, prop, val)
-    self.remove_button.visible = allow_remove
+    self.remove_button.visible = self.allow_remove
 
   @property
   def item_text(self):
