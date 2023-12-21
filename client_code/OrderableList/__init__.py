@@ -15,11 +15,11 @@ class OrderableList(OrderableListTemplate):
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
     self.adding = False
+    self.rendered = False
 
   @property
   def remove_button_properties(self):
     return self._remove_button_properties
-
   @remove_button_properties.setter
   def remove_button_properties(self, value):
     self._remove_button_properties = value
@@ -28,6 +28,26 @@ class OrderableList(OrderableListTemplate):
         if self._dragable_list.components is not None:
           for comp in self._dragable_list.components:
             setattr(comp.remove_button, prop, val)
+
+  @property
+  def item_editable(self):
+    return self._item_editable
+  @item_editable.setter
+  def item_editable(self, value):
+    self._item_editable = value
+    if getattr(self, "rendered", False):
+      for comp in self._dragable_list.components:
+        comp.editable = value
+
+  @property
+  def allow_remove(self):
+    return self._allow_remove
+  @allow_remove.setter
+  def allow_remove(self, value):
+    self._allow_remove = value
+    if getattr(self, "rendered", False):
+      for comp in self._dragable_list.components:
+        comp.allow_remove = value
 
   def _set_numeration_text(self, list_len, list_components):
     def generate_letter_combinations(start, count, is_lower):
@@ -147,10 +167,10 @@ class OrderableList(OrderableListTemplate):
         comps.append(ListItem(
           item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
           index=comps_len,
-          allow_remove=self.allow_remove,
+          editable=self.item_editable,
           **self.remove_button_properties
         ))
-    self._dragable_list.components = comps    
+    self._dragable_list.components = comps
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
@@ -168,6 +188,7 @@ class OrderableList(OrderableListTemplate):
     
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""
+    self.rendered = True
     _html_injector.css("""/* Roles for muuri */ 
   .anvil-role-grid {
   position: relative;
