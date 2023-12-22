@@ -11,50 +11,37 @@ class DragableList(DragableListTemplate):
   """
   Modification of code found here: https://anvil.works/forum/t/cutting-edge-dragable-list-python-only/7588
   """
-  def __init__(self, **properties):
+  def __init__(self, drag_enabled, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.components = None    
+    self._comps = None    
     self._muuri_grid = None
     self._previous_components_order = []
-    self._drag_enabled = True
+    self.drag_enabled = drag_enabled
+    self.rendered = False
+
+  @property
+  def drag_enabled(self):
+    return self._drag_enabled
+  @drag_enabled.setter
+  def drag_enabled(self, value):
+    self._drag_enabled = value
+    if getattr(self, "rendered", None):
+      self._update_list()
+    print([comp.item_text for comp in getattr(self, "_comps", []) or []])
     
   @property
-  def _drag_enabled(self):
-    return self.__drag_enabled
-  @_drag_enabled.setter
-  def _drag_enabled(self, value):
-    self.__drag_enabled = value
-    try:
-      self._update_list()
-    except Exception as err:
-      # if str(err) == "Error: Container element must be an existing DOM element.":
-      #   # Just for the first time around when the dom isn't ready
-      #   pass
-      # else:
-      #   raise
-      pass
-  
-  @property
   def components(self):
-    return self._components
+      return self._comps
 
   @components.setter
-  def components(self, comps):
-    self._components = comps
-    # if getattr(self, "_components", None) != comps:
-      # self._comps = comps
-    print(getattr(self, "_muuri_grid", None))
-    try:
-      self._update_list()
-      self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
-    except:
-      # if str(err) == "Error: Container element must be an existing DOM element.":
-      #   # Just for the first time around when the dom isn't ready
-      #   pass
-      # else:
-      #   raise
-      pass
+  def components(self, comps) :
+      current_comps = self._comps
+      if self._comps != comps:
+        self._comps = comps
+        if sorted([comp.item_text for comp in current_comps or []]) != sorted([comp.item_text for comp in comps or []]):
+          self._update_list()
+        self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
   def refresh(self):
     if self._muuri_grid:
@@ -66,7 +53,7 @@ class DragableList(DragableListTemplate):
     if self._muuri_grid is None:
       return []        
     
-    return [self.components[index] for index in self._get_components_order()]
+    return [self._comps[index] for index in self._get_components_order()]
   
   def _get_components_order(self) -> list:
     return [self._get_component_index(item) for item in self._muuri_grid.getItems()]
@@ -76,7 +63,7 @@ class DragableList(DragableListTemplate):
   
   def _update_list(self):
     self._init_muuri_grid()    
-    for index, comp in enumerate(self.components):
+    for index, comp in enumerate(self._comps):
       self._muuri_grid.add(anvil.js.get_dom_node(self._generate_item(comp, index)))   
       
     self._previous_components_order = self._get_components_order()
@@ -91,11 +78,11 @@ class DragableList(DragableListTemplate):
       
   def _init_muuri_grid(self):
     #Destroy old Muuri Grid    
-    if getattr(self, "_muuri_grid", None) != None:
+    if self._muuri_grid != None:
       self._muuri_grid.destroy(True)
-    print("here")
+    
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
-    'dragEnabled': getattr(self, "_drag_enabled", True),
+    'dragEnabled': self.drag_enabled,
     'items': None,
     'dragAxis': 'y',
     'fillGaps': False,
@@ -136,3 +123,7 @@ class DragableList(DragableListTemplate):
       # Enable smooth stop.
       'smoothStop': True,
       }
+
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    self.rendered = True
