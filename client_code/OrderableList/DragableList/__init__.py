@@ -14,18 +14,35 @@ class DragableList(DragableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self._comps = None    
+    self.components = None    
     self._muuri_grid = None
     self._previous_components_order = []
+    self._drag_enabled = True
     
   @property
+  def _drag_enabled(self):
+    return self.__drag_enabled
+  @_drag_enabled.setter
+  def _drag_enabled(self, value):
+    self.__drag_enabled = value
+    try:
+      self._update_list()
+    except Exception as err:
+      if str(err) == "Error: Container element must be an existing DOM element.":
+        # Just for the first time around when the dom isn't ready
+        pass
+      else:
+        raise
+  
+  @property
   def components(self):
-      return self._comps
+      return self._components
 
   @components.setter
-  def components(self, comps) :
-      if self._comps != comps:
-        self._comps = comps
+  def components(self, comps):
+      if self._components != comps:
+        self._components = comps
+        # self._comps = comps
         self._update_list()
         self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
@@ -39,7 +56,7 @@ class DragableList(DragableListTemplate):
     if self._muuri_grid is None:
       return []        
     
-    return [self._comps[index] for index in self._get_components_order()]
+    return [self.components[index] for index in self._get_components_order()]
   
   def _get_components_order(self) -> list:
     return [self._get_component_index(item) for item in self._muuri_grid.getItems()]
@@ -49,7 +66,7 @@ class DragableList(DragableListTemplate):
   
   def _update_list(self):
     self._init_muuri_grid()    
-    for index, comp in enumerate(self._comps):
+    for index, comp in enumerate(self.components):
       self._muuri_grid.add(anvil.js.get_dom_node(self._generate_item(comp, index)))   
       
     self._previous_components_order = self._get_components_order()
@@ -68,7 +85,7 @@ class DragableList(DragableListTemplate):
       self._muuri_grid.destroy(True)
     
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
-    'dragEnabled': True,
+    'dragEnabled': self._drag_enabled,
     'items': None,
     'dragAxis': 'y',
     'fillGaps': False,

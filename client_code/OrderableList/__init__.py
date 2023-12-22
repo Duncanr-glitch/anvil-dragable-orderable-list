@@ -18,6 +18,15 @@ class OrderableList(OrderableListTemplate):
     self.rendered = False
 
   @property
+  def drag_enabled(self):
+    return self._drag_enabled
+  @drag_enabled.setter
+  def drag_enabled(self, value):
+    self._drag_enabled = value
+    if getattr(self, "_dragable_list", None):
+      self._dragable_list._drag_enabled = value
+  
+  @property
   def remove_button_properties(self):
     return self._remove_button_properties
   @remove_button_properties.setter
