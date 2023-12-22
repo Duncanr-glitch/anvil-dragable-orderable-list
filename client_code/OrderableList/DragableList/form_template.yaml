@@ -1,4 +1,6 @@
-container: {type: ColumnPanel}
+container:
+  type: ColumnPanel
+  event_bindings: {show: form_show}
 components:
 - type: ColumnPanel
   properties: {role: grid, tooltip: '', border: '', foreground: '', visible: true,

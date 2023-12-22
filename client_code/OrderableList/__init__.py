@@ -11,12 +11,21 @@ class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self._dragable_list = DragableList()
+    self._dragable_list = DragableList(drag_enabled=self.drag_enabled)
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
     self.adding = False
     self.rendered = False
 
+  @property
+  def drag_enabled(self):
+    return self._drag_enabled
+  @drag_enabled.setter
+  def drag_enabled(self, value):
+    self._drag_enabled = value
+    if getattr(self, "_dragable_list", None):
+      self._dragable_list.drag_enabled = value
+      
   @property
   def remove_button_properties(self):
     return self._remove_button_properties
@@ -142,6 +151,7 @@ class OrderableList(OrderableListTemplate):
       comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
       self._dragable_list.components = []
       self.add_drag_item(comp_texts)
+    self._dragable_list.components = self._dragable_list.get_sorted_components()
     self.adding = False
     self.raise_event("x-list_changed")
     

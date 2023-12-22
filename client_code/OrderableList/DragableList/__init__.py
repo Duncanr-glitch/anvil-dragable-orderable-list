@@ -11,12 +11,24 @@ class DragableList(DragableListTemplate):
   """
   Modification of code found here: https://anvil.works/forum/t/cutting-edge-dragable-list-python-only/7588
   """
-  def __init__(self, **properties):
+  def __init__(self, drag_enabled, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self._comps = None    
     self._muuri_grid = None
     self._previous_components_order = []
+    self.drag_enabled = drag_enabled
+    self.rendered = False
+
+  @property
+  def drag_enabled(self):
+    return self._drag_enabled
+  @drag_enabled.setter
+  def drag_enabled(self, value):
+    self._drag_enabled = value
+    if getattr(self, "rendered", None):
+      self._update_list()
+    print([comp.item_text for comp in getattr(self, "_comps", []) or []])
     
   @property
   def components(self):
@@ -24,9 +36,11 @@ class DragableList(DragableListTemplate):
 
   @components.setter
   def components(self, comps) :
+      current_comps = self._comps
       if self._comps != comps:
         self._comps = comps
-        self._update_list()
+        if sorted([comp.item_text for comp in current_comps or []]) != sorted([comp.item_text for comp in comps or []]):
+          self._update_list()
         self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
   def refresh(self):
@@ -68,7 +82,7 @@ class DragableList(DragableListTemplate):
       self._muuri_grid.destroy(True)
     
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
-    'dragEnabled': True,
+    'dragEnabled': self.drag_enabled,
     'items': None,
     'dragAxis': 'y',
     'fillGaps': False,
@@ -109,3 +123,7 @@ class DragableList(DragableListTemplate):
       # Enable smooth stop.
       'smoothStop': True,
       }
+
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    self.rendered = True

@@ -7,7 +7,7 @@ properties:
 - {name: allow_remove, type: boolean, default_value: false, important: true}
 - {name: remove_button_properties, type: object, important: true}
 - {name: item_editable, type: boolean, default_value: false, important: true}
-- {name: editable, type: boolean, default_value: true, important: true}
+- {name: drag_enabled, type: boolean, default_value: true, important: true}
 - {name: removal_confirm, type: boolean, default_value: false, important: true}
 - {name: removal_alert_message, type: string, default_value: 'Are you sure you want
     to remove {item_text}?', important: true, description: 'Message to display to

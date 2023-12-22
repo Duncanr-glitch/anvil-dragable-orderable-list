@@ -32,4 +32,8 @@ class Form1(Form1Template):
       "foreground": "red"
     }
 
+  def orderable_list_1_list_changed(self, **event_args):
+    """This method is called when the length or order of the list change"""
+    pass
+
 
