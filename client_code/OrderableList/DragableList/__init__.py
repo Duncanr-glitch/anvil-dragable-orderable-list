@@ -36,15 +36,23 @@ class DragableList(DragableListTemplate):
   
   @property
   def components(self):
-      return self._components
+    return self._components
 
   @components.setter
   def components(self, comps):
-      if self._components != comps:
-        self._components = comps
-        # self._comps = comps
-        self._update_list()
-        self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
+    self._components = comps
+    # if getattr(self, "_components", None) != comps:
+      # self._comps = comps
+    print(getattr(self, "_muuri_grid", None))
+    try:
+      self._update_list()
+      self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
+    except Exception as err:
+      if str(err) == "Error: Container element must be an existing DOM element.":
+        # Just for the first time around when the dom isn't ready
+        pass
+      else:
+        raise
   
   def refresh(self):
     if self._muuri_grid:
@@ -81,11 +89,11 @@ class DragableList(DragableListTemplate):
       
   def _init_muuri_grid(self):
     #Destroy old Muuri Grid    
-    if self._muuri_grid != None:
+    if getattr(self, "_muuri_grid", None) != None:
       self._muuri_grid.destroy(True)
-    
+    print("here")
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
-    'dragEnabled': self._drag_enabled,
+    'dragEnabled': getattr(self, "_drag_enabled", True),
     'items': None,
     'dragAxis': 'y',
     'fillGaps': False,
