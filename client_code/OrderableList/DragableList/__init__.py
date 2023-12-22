@@ -28,11 +28,12 @@ class DragableList(DragableListTemplate):
     try:
       self._update_list()
     except Exception as err:
-      if str(err) == "Error: Container element must be an existing DOM element.":
-        # Just for the first time around when the dom isn't ready
-        pass
-      else:
-        raise
+      # if str(err) == "Error: Container element must be an existing DOM element.":
+      #   # Just for the first time around when the dom isn't ready
+      #   pass
+      # else:
+      #   raise
+      pass
   
   @property
   def components(self):
@@ -47,12 +48,13 @@ class DragableList(DragableListTemplate):
     try:
       self._update_list()
       self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
-    except Exception as err:
-      if str(err) == "Error: Container element must be an existing DOM element.":
-        # Just for the first time around when the dom isn't ready
-        pass
-      else:
-        raise
+    except:
+      # if str(err) == "Error: Container element must be an existing DOM element.":
+      #   # Just for the first time around when the dom isn't ready
+      #   pass
+      # else:
+      #   raise
+      pass
   
   def refresh(self):
     if self._muuri_grid:
