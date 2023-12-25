@@ -84,9 +84,11 @@ class DragableList(DragableListTemplate):
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
     'dragEnabled': self.drag_enabled,
     'items': None,
-    'dragAxis': 'y',
-    'fillGaps': False,
-    'dragAutoScroll': self._get_drag_settings()})
+    'dragAxis': 'x',
+    'fillGaps': True,
+    'dragAutoScroll': self._get_drag_settings(),
+    'horizontal': True
+    })
     self._muuri_grid.on('dragEnd', self._drag_end)
     self.dragzone.clear()
     
