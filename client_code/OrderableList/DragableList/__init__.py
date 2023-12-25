@@ -87,8 +87,16 @@ class DragableList(DragableListTemplate):
     'fillGaps': False,
     'dragAutoScroll': self._get_drag_settings()
     })
+    self._muuri_grid_2 = Muuri(anvil.js.get_dom_node(self.dragzone_),{
+    'dragEnabled': self.drag_enabled,
+    'items': None,
+    'dragAxis': 'y',
+    'fillGaps': False,
+    'dragAutoScroll': self._get_drag_settings()
+    })
     self._muuri_grid.on('dragEnd', self._drag_end)
     self.dragzone.clear()
+    
     
   def _drag_end(self, item, event):
     current_components_order = self._get_components_order()
