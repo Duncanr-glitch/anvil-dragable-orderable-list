@@ -18,6 +18,15 @@ class OrderableList(OrderableListTemplate):
     self.rendered = False
 
   @property
+  def visible(self):
+    return self._visible
+  @visible.setter
+  def visible(self, value):
+    self._visible = value
+    for comp in self.get_components():
+      comp.visible = value
+  
+  @property
   def drag_enabled(self):
     return self._drag_enabled
   @drag_enabled.setter

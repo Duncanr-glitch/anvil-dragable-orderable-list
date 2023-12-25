@@ -65,7 +65,6 @@ class DragableList(DragableListTemplate):
     self._init_muuri_grid()    
     for index, comp in enumerate(self._comps):
       self._muuri_grid.add(anvil.js.get_dom_node(self._generate_item(comp, index)))   
-      
     self._previous_components_order = self._get_components_order()
       
   def _generate_item(self, component, index):
@@ -84,10 +83,9 @@ class DragableList(DragableListTemplate):
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
     'dragEnabled': self.drag_enabled,
     'items': None,
-    'dragAxis': 'x',
-    'fillGaps': True,
-    'dragAutoScroll': self._get_drag_settings(),
-    'horizontal': True
+    'dragAxis': 'y',
+    'fillGaps': False,
+    'dragAutoScroll': self._get_drag_settings()
     })
     self._muuri_grid.on('dragEnd', self._drag_end)
     self.dragzone.clear()
