@@ -13,7 +13,7 @@ class Form1(Form1Template):
       "background": "red",
       "foreground": "yellow"
     }
-    self.orderable_list_1._dragable_list.drag_grids['others'] = self.orderable_list_2._dragable_list
+    self.orderable_list_1._dragable_list.drag_grids = self.orderable_list_2._dragable_list
 
     # Any code you write here will run when the form opens.
 
