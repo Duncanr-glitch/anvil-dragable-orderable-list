@@ -14,6 +14,7 @@ class OrderableList(OrderableListTemplate):
     self._dragable_list = DragableList(drag_enabled=self.drag_enabled)
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
+    self.remove_button_properties = {}
     self.adding = False
     self.rendered = False
 

@@ -19,7 +19,15 @@ class DragableList(DragableListTemplate):
     self._previous_components_order = []
     self.drag_enabled = drag_enabled
     self.rendered = False
+    self.drag_grids = {'self': self._muuri_grid}
 
+  @property
+  def drag_grids(self):
+    return self._drag_grids
+  @drag_grids.setter
+  def drag_grids(self, value):
+    self._drag_grids = {'self': self._muuri_grid, 'others': value}
+    
   @property
   def drag_enabled(self):
     return self._drag_enabled
@@ -83,10 +91,19 @@ class DragableList(DragableListTemplate):
     self._muuri_grid = Muuri(anvil.js.get_dom_node(self.dragzone),{
     'dragEnabled': self.drag_enabled,
     'items': None,
-    'dragAxis': 'y',
+    'dragAxis': 'xy',
     'fillGaps': False,
-    'dragAutoScroll': self._get_drag_settings()
+    'dragAutoScroll': self._get_drag_settings(),
     })
+    
+    self.drag_grids = self.drag_grids
+    other_grid = self.drag_grids.get('others', [])
+    if isinstance(other_grid, list):
+      full_grids = [self.drag_grids['self'], *other_grid]
+    else:
+      full_grids = [self.drag_grids['self'], other_grid]
+    self._muuri_grid.on('dragSort', lambda props: full_grids)
+    
     self._muuri_grid.on('dragEnd', self._drag_end)
     self.dragzone.clear()
     

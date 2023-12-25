@@ -13,6 +13,7 @@ class Form1(Form1Template):
       "background": "red",
       "foreground": "yellow"
     }
+    self.orderable_list_1._dragable_list.drag_grids['others'] = self.orderable_list_2._dragable_list
 
     # Any code you write here will run when the form opens.
 
@@ -35,5 +36,9 @@ class Form1(Form1Template):
   def orderable_list_1_list_changed(self, **event_args):
     """This method is called when the length or order of the list change"""
     pass
+
+  def button_4_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.orderable_list_2.add_drag_item(self.text_box_3.text)
 
 
