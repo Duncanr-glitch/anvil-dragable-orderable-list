@@ -26,8 +26,9 @@ class DragableList(DragableListTemplate):
     return self._drag_grids
   @drag_grids.setter
   def drag_grids(self, value):
-    if list(value.keys()) != ['self']:
-      self._drag_grids = {'self': self._muuri_grid, 'others': value}
+    print(getattr(self, "drag_grids", None), value)
+    if isinstance(value, dict) and list(value.keys()) != ['self']:
+      self._drag_grids = {'self': self._muuri_grid, 'others': value or []}
     else:
       self._drag_grids = value
     
@@ -100,12 +101,12 @@ class DragableList(DragableListTemplate):
     })
     
     self.drag_grids = self.drag_grids
-    other_grid = self.drag_grids.get('others', [])
+    other_grid = (self.drag_grids or {}).get('others', [])
     print(other_grid, self.drag_grids)
     if isinstance(other_grid, list):
-      full_grids = [self.drag_grids['self'], *other_grid]
+      full_grids = [(self.drag_grids or {}).get('self'), *other_grid]
     else:
-      full_grids = [self.drag_grids['self'], other_grid]
+      full_grids = [(self.drag_grids or {}).get('self'), other_grid]
     print(full_grids)
     self._muuri_grid.on('dragSort', lambda props: full_grids)
     
