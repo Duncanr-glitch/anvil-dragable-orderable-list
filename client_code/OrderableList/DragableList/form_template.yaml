@@ -13,5 +13,9 @@ components:
       spacing_below: small, background: ''}
     name: dragzone
     layout_properties: {width: 561.465388671875}
-    components: []
+    components:
+    - name: label_1
+      properties: {text: flow panel}
+      type: Label
+      layout_properties: {grid_position: 'KTNTXK,QOXITS'}
 is_package: true
