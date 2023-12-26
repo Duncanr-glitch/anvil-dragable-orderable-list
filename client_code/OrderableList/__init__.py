@@ -44,7 +44,7 @@ class OrderableList(OrderableListTemplate):
     if value is not None:
       for prop, val in value.items():
         if self._dragable_list.components is not None:
-          for comp in self._dragable_list.components:
+          for comp in self._dragable_list.dragzone.components:
             setattr(comp.remove_button, prop, val)
 
   @property
@@ -54,7 +54,7 @@ class OrderableList(OrderableListTemplate):
   def item_editable(self, value):
     self._item_editable = value
     if getattr(self, "rendered", False):
-      for comp in self._dragable_list.components:
+      for comp in self._dragable_list.dragzone.components:
         comp.editable = value
 
   @property
@@ -64,7 +64,7 @@ class OrderableList(OrderableListTemplate):
   def allow_remove(self, value):
     self._allow_remove = value
     if getattr(self, "rendered", False):
-      for comp in self._dragable_list.components:
+      for comp in self._dragable_list.dragzone.components:
         comp.allow_remove = value
 
   def _set_numeration_text(self, list_len, list_components):
@@ -158,9 +158,9 @@ class OrderableList(OrderableListTemplate):
 
     if self.numeration and not self.adding:
       comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
-      self._dragable_list.components = []
+      self._dragable_list.dragzone.components = []
       self.add_drag_item(comp_texts)
-    self._dragable_list.components = self._dragable_list.get_sorted_components()
+    self._dragable_list.dragzone.components = self._dragable_list.get_sorted_components()
     self.adding = False
     self.raise_event("x-list_changed")
     
@@ -189,7 +189,7 @@ class OrderableList(OrderableListTemplate):
           editable=self.item_editable,
           **self.remove_button_properties
         ))
-    self._dragable_list.components = comps
+    self._dragable_list.dragzone.components = comps
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
@@ -200,10 +200,10 @@ class OrderableList(OrderableListTemplate):
       indices.sort(reverse=True)
       for index in indices:
         comps.remove(comps[index])
-    self._dragable_list.components = comps
+    self._dragable_list.dragzone.components = comps
     
   def remove_all(self):
-    self._dragable_list.components = []
+    self._dragable_list.dragzone.components = []
     
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""
