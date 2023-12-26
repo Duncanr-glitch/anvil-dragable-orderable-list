@@ -5,7 +5,7 @@ services:
 - source: /runtime/services/tables.yml
   client_config: {}
   server_config: {}
-startup: {type: form, module: Form1}
+startup: {type: form, module: muuri_html}
 package_name: Dragable_List
 allow_embedding: false
 name: Draggable List
