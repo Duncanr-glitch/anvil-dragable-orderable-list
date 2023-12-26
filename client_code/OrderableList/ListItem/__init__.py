@@ -91,7 +91,7 @@ class ListItem(ListItemTemplate):
   
   def form_show(self, **event_args):
     """This method is called when the form is shown on the page"""
-    self.orderable_list = self.parent.parent.parent.parent.parent.parent
+    self.orderable_list = self.parent.parent.parent.parent.parent
     print(self.orderable_list.__name__)
     self.editable = self.orderable_list.item_editable
     self.allow_remove = self.orderable_list.allow_remove

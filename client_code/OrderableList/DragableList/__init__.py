@@ -36,6 +36,7 @@ class DragableList(DragableListTemplate):
 
   @components.setter
   def components(self, comps) :
+      print([comp.__name__ for comp in comps])
       current_comps = self._comps
       if self._comps != comps:
         self._comps = comps
@@ -68,12 +69,13 @@ class DragableList(DragableListTemplate):
     self._previous_components_order = self._get_components_order()
       
   def _generate_item(self, component, index):
-    component.remove_from_parent()
-    cp = ColumnPanel(role='item')
-    cp.add_component(component)
-    self.dragzone.add_component(cp)
-    js.get_dom_node(cp).setAttribute(COMP_INDEX, index)
-    return cp
+    if component.__name__ == "ListItem":
+      component.remove_from_parent()
+      cp = ColumnPanel(role='item')
+      cp.add_component(component)
+      self.dragzone.add_component(cp)
+      js.get_dom_node(cp).setAttribute(COMP_INDEX, index)
+      return cp
       
   def _init_muuri_grid(self):
     #Destroy old Muuri Grid    

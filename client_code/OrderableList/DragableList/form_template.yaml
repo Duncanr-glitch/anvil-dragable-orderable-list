@@ -2,20 +2,15 @@ container:
   type: ColumnPanel
   event_bindings: {show: form_show}
 components:
-- name: dragzone_container
-  properties: {}
-  type: FlowPanel
-  layout_properties: {grid_position: 'JYOYUB,RJIGVP'}
+- type: ColumnPanel
+  properties: {role: grid, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
+  name: dragzone
+  layout_properties: {grid_position: 'CEZZDV,CMQICL'}
   components:
-  - type: ColumnPanel
-    properties: {role: grid, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-      spacing_below: small, background: ''}
-    name: dragzone
-    layout_properties: {width: 561.465388671875}
-    components:
-    - name: label_1
-      properties: {text: flow panel}
-      type: Label
-      layout_properties: {grid_position: 'KTNTXK,QOXITS'}
+  - name: label_1
+    properties: {text: test}
+    type: Label
+    layout_properties: {grid_position: 'DIOEJX,ZLJIDM'}
 is_package: true
