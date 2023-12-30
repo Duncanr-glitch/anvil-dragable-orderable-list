@@ -41,6 +41,7 @@ class DragableList(DragableListTemplate):
         self._comps = comps
         if sorted([comp.item_text for comp in current_comps or []]) != sorted([comp.item_text for comp in comps or []]):
           self._update_list()
+        print("component incoming")
         self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
   def refresh(self):
@@ -94,6 +95,7 @@ class DragableList(DragableListTemplate):
     current_components_order = self._get_components_order()
     if current_components_order != self._previous_components_order:
       self._previous_components_order = current_components_order
+      print("drag event coming")
       self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
 
   def _get_drag_settings(self):
