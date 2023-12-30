@@ -162,7 +162,7 @@ class OrderableList(OrderableListTemplate):
       self.add_drag_item(comp_texts)
     self._dragable_list.components = self._dragable_list.get_sorted_components()
     self.adding = False
-    self.raise_event("x-list_changed")
+    self.raise_event("list_changed")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""

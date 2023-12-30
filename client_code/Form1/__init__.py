@@ -34,6 +34,6 @@ class Form1(Form1Template):
 
   def orderable_list_1_list_changed(self, **event_args):
     """This method is called when the length or order of the list change"""
-    pass
+    print(self.orderable_list_1._dragable_list.components)
 
 

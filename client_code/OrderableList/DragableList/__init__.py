@@ -94,7 +94,7 @@ class DragableList(DragableListTemplate):
     current_components_order = self._get_components_order()
     if current_components_order != self._previous_components_order:
       self._previous_components_order = current_components_order
-      self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
+      # self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
 
   def _get_drag_settings(self):
       return {
