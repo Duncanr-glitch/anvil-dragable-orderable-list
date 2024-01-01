@@ -7,6 +7,8 @@ from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
 from .ListItem import ListItem
 from anvil_extras.utils._component_helpers import _html_injector
 
+import time
+
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -17,6 +19,22 @@ class OrderableList(OrderableListTemplate):
     self.adding = False
     self.rendered = False
 
+  @property
+  def components(self):
+    return self._components
+  @components.setter
+  def components(self, value):
+    self._dragable_list.components = value or []
+    self._components = value or []
+  
+  @property
+  def order_label_visible(self):
+    return self._order_label_visible
+  @order_label_visible.setter
+  def order_label_visible(self, value):
+    self._order_label_visible = value
+    self.order_label.visible = value
+  
   @property
   def visible(self):
     return self._visible
@@ -43,8 +61,8 @@ class OrderableList(OrderableListTemplate):
     self._remove_button_properties = value
     if value is not None:
       for prop, val in value.items():
-        if self._dragable_list.components is not None:
-          for comp in self._dragable_list.components:
+        if getattr(self, "components", None) is not None:
+          for comp in self.components:
             setattr(comp.remove_button, prop, val)
 
   @property
@@ -54,7 +72,7 @@ class OrderableList(OrderableListTemplate):
   def item_editable(self, value):
     self._item_editable = value
     if getattr(self, "rendered", False):
-      for comp in self._dragable_list.components:
+      for comp in self.components:
         comp.editable = value
 
   @property
@@ -64,7 +82,7 @@ class OrderableList(OrderableListTemplate):
   def allow_remove(self, value):
     self._allow_remove = value
     if getattr(self, "rendered", False):
-      for comp in self._dragable_list.components:
+      for comp in self.components:
         comp.allow_remove = value
 
   def _set_numeration_text(self, list_len, list_components):
@@ -158,9 +176,9 @@ class OrderableList(OrderableListTemplate):
 
     if self.numeration and not self.adding:
       comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
-      self._dragable_list.components = []
+      self.components = []
       self.add_drag_item(comp_texts)
-    self._dragable_list.components = self._dragable_list.get_sorted_components()
+    self.components = self._dragable_list.get_sorted_components()
     self.adding = False
     self.raise_event("list_changed")
     
@@ -170,6 +188,7 @@ class OrderableList(OrderableListTemplate):
     
   def add_drag_item(self, new_texts):
     """Method to add items to the draggable list"""
+    self.order_label_visible = self.order_label_visible
     self.adding = True
     comps = self._dragable_list.get_sorted_components()
     if isinstance(new_texts, str):
@@ -189,7 +208,7 @@ class OrderableList(OrderableListTemplate):
           editable=self.item_editable,
           **self.remove_button_properties
         ))
-    self._dragable_list.components = comps
+    self.components = comps
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
@@ -200,10 +219,10 @@ class OrderableList(OrderableListTemplate):
       indices.sort(reverse=True)
       for index in indices:
         comps.remove(comps[index])
-    self._dragable_list.components = comps
+    self.components = comps
     
   def remove_all(self):
-    self._dragable_list.components = []
+    self.components = []
     
   def form_show(self, **event_args):
     """This method is called when the column panel is shown on the screen"""

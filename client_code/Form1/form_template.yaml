@@ -27,9 +27,9 @@ components:
     layout_properties: {grid_position: 'VGQDMK,KJVFBW'}
     event_bindings: {click: button_1_click}
   - type: form:OrderableList
-    properties: {order_title: Order Test, numeration: numerical, allow_remove: true,
-      item_editable: true, removal_confirm: true, confirm_removal: false, drag_enabled: true,
-      visible: true}
+    properties: {confirm_removal: false, item_editable: true, drag_enabled: true,
+      visible: true, order_title: Order Test, removal_confirm: true, numeration: numerical,
+      order_label_visible: false, allow_remove: true}
     name: orderable_list_1
     layout_properties: {grid_position: 'OOJTJH,RESJUJ'}
     event_bindings: {list_changed: orderable_list_1_list_changed}
