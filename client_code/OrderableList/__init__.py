@@ -21,11 +21,12 @@ class OrderableList(OrderableListTemplate):
 
   @property
   def components(self):
-    return self._components
+    return self._dragable_list.components
+    # return self._components
   @components.setter
   def components(self, value):
-    self._dragable_list.components = []
-    self._components = []
+    self._dragable_list.components = value or []
+    # self._components = []
   
   @property
   def order_label_visible(self):
@@ -249,7 +250,8 @@ class OrderableList(OrderableListTemplate):
   .anvil-role-item.muuri-item-hidden {
   z-index: 0;
   }""")
-    self.components = [ListItem(item_text="Hello init")]
+    # self.components = [ListItem(item_text=f"{self._set_numeration_text(1, self.components)}Hello Init")]
+    self.components = [ListItem(item_text="Hello Init")]
   
 
 
