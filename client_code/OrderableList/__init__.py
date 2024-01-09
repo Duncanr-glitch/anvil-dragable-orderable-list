@@ -84,90 +84,9 @@ class OrderableList(OrderableListTemplate):
       for comp in self.components:
         comp.allow_remove = value
 
-  def _set_numeration_text(self, list_len, list_components):
-    def generate_letter_combinations(start, count, is_lower):
-        """
-        Generate a sequence of letter combinations starting from the given start.
-        :param start: The starting combination (e.g., 'zz').
-        :param count: The number of combinations to generate.
-        :param is
-        :return: A list of letter combinations.
-        """
-        def increment_string(s):
-            """
-            Increment a string in a way similar to how numbers are incremented.
-            'a' -> 'b', ..., 'z' -> 'aa', 'ab' -> 'ac', ..., 'zz' -> 'aaa'
-            """
-            if s == '':
-                if is_lower:
-                  return 'a'
-                return "A"
-            elif s[-1] == 'z':
-                return increment_string(s[:-1]) + 'a'
-            elif s[-1] == "Z":
-                return increment_string(s[:-1]) + 'A'
-            else:
-                return s[:-1] + chr(ord(s[-1]) + 1)
-    
-        current = start
-        results = []
-        for _ in range(count):
-            current = increment_string(current)
-            results.append(current)
-        if count == 1:
-          return results[0]
-        return results      
-    def int_to_roman(num, is_lower):
-        """
-        Convert an integer to a Roman numeral.
-        """
-        val = [
-            1000, 900, 500, 400,
-            100, 90, 50, 40,
-            10, 9, 5, 4,
-            1
-            ]
-        roman_nums_upper = [
-            "M", "CM", "D", "CD",
-            "C", "XC", "L", "XL",
-            "X", "IX", "V", "IV",
-            "I"
-            ]
-        roman_nums_lower = [
-          'm', 'cm', 'd', 'cd',
-          'c', 'xc', 'l', 'xl',
-          'x', 'ix', 'v', 'iv',
-          'i'
-          ]
-        roman_num = ''
-        i = 0
-        while num > 0:
-            for _ in range(num // val[i]):
-                if is_lower:
-                  roman_num += roman_nums_lower[i]
-                else:
-                  roman_num += roman_nums_upper[i]
-                num -= val[i]
-            i += 1
-        return roman_num
-
-    add_text = ""
-    
-    if self.numeration == "numerical":
-      add_text = f"{list_len}. "
-    elif self.numeration == "lower-alpha" or self.numeration == "upper-alpha":
-      if not list_len-1:
-        add_text = f'{generate_letter_combinations("", 1, self.numeration == "lower-alpha")}. '
-      else:
-        add_text = f'{generate_letter_combinations(list_components[-1].item_text.split(".")[0], 1, self.numeration == "lower-alpha")}. '
-    elif self.numeration == "lower-roman" or self.numeration == "upper-roman":
-      add_text = f'{int_to_roman(list_len, self.numeration == "lower-roman")}. '
-    
-    return add_text
-
   def _get_list_item_value(self, comp):
     if self.numeration:
-      return "".join(comp.item_text.split(". ")[1:])
+      return ". ".join(comp.item_text.split(". ")[1:])
     return comp.item_text
 
   def _list_changed(self, **eventargs):
@@ -175,7 +94,7 @@ class OrderableList(OrderableListTemplate):
 
     if self.numeration and not self.adding:
       new_comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
-      current_comp_texts = [item.item_text for item in self.components]
+      current_comp_texts = [self._get_list_item_value(item) for item in self.components]
       if new_comp_texts != current_comp_texts:
         self.components = [ListItem(item_text=comp_text, index=index) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
@@ -194,7 +113,6 @@ class OrderableList(OrderableListTemplate):
       comps_len = len(comps)
       comps.append(ListItem(
         item_text=new_texts,
-        # item_text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
         index=comps_len,
         allow_remove=self.allow_remove,
         **self.remove_button_properties
@@ -204,7 +122,6 @@ class OrderableList(OrderableListTemplate):
         comps_len = len(comps)
         comps.append(ListItem(
           item_text=text,
-          # item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
           index=comps_len,
           editable=self.item_editable,
           **self.remove_button_properties

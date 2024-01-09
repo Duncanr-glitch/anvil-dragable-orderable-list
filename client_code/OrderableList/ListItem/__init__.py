@@ -30,17 +30,8 @@ class ListItem(ListItemTemplate):
     return self._item_text
   @item_text.setter
   def item_text(self, value):
-    split_value = value.split(". ")[1:]
-    # if len(split_value) > 1:
-    #   value = ". ".join(split_value)
-    print(split_value)
-    # if getattr(self, "orderable_list", None):
-    #   numerated_text = f"{self._set_numeration_text(len(self.orderable_list.components), self.orderable_list.components)}{value}"
-    # else:
-    numerated_text = value
-
-    self._item_text = numerated_text
-    self.item_label.text = numerated_text
+    self._item_text = value
+    self.item_label.text = value
 
   @property
   def editable(self):
