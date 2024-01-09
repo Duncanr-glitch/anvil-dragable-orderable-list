@@ -4,6 +4,7 @@ import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from ..OrderableList.ListItem import ListItem
 
 class Form1(Form1Template):
   def __init__(self, **properties):
@@ -35,5 +36,9 @@ class Form1(Form1Template):
   def orderable_list_1_list_changed(self, **event_args):
     """This method is called when the length or order of the list change"""
     print(self.orderable_list_1._dragable_list.components)
+
+  def button_4_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.orderable_list_1.components = [ListItem(item_text="Hello world", index=0)]
 
 
