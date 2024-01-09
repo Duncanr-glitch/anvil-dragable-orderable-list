@@ -7,8 +7,6 @@ from .DragableList import DragableList, DRAGABLE_LIST_CHANGE_EVENT
 from .ListItem import ListItem
 from anvil_extras.utils._component_helpers import _html_injector
 
-import time
-
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -176,10 +174,10 @@ class OrderableList(OrderableListTemplate):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
 
     if self.numeration and not self.adding:
-      comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
-      self.components = []
-      self.add_drag_item(comp_texts)
-    self.components = self._dragable_list.get_sorted_components()
+      new_comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
+      current_comp_texts = [item.item_text for item in self.components]
+      if new_comp_texts != current_comp_texts:
+        self.components = [ListItem(item_text=comp_text, index=index) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
     self.raise_event("list_changed")
     
@@ -195,7 +193,8 @@ class OrderableList(OrderableListTemplate):
     if isinstance(new_texts, str):
       comps_len = len(comps)
       comps.append(ListItem(
-        item_text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
+        item_text=new_texts,
+        # item_text=f"{self._set_numeration_text(comps_len+1, comps)}{new_texts}",
         index=comps_len,
         allow_remove=self.allow_remove,
         **self.remove_button_properties
@@ -204,7 +203,8 @@ class OrderableList(OrderableListTemplate):
       for text in new_texts:
         comps_len = len(comps)
         comps.append(ListItem(
-          item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
+          item_text=text,
+          # item_text=f"{self._set_numeration_text(comps_len+1, comps)}{text}",
           index=comps_len,
           editable=self.item_editable,
           **self.remove_button_properties
@@ -251,7 +251,4 @@ class OrderableList(OrderableListTemplate):
   z-index: 0;
   }""")
     # self.components = [ListItem(item_text=f"{self._set_numeration_text(1, self.components)}Hello Init")]
-    self.components = [ListItem(item_text="Hello Init")]
-  
-
-
+    self.components = [ListItem(item_text="Hello Init", index=0)]

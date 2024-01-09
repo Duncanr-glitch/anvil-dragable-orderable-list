@@ -34,7 +34,6 @@ class DragableList(DragableListTemplate):
       return self._comps
   @components.setter
   def components(self, comps) :
-      print("comps setter")
       current_comps = self._comps
       if self._comps != comps:
         self._comps = comps

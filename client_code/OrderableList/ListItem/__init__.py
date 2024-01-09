@@ -30,10 +30,15 @@ class ListItem(ListItemTemplate):
     return self._item_text
   @item_text.setter
   def item_text(self, value):
-    if getattr(self, "orderable_list", None):
-      numerated_text = f"{self._set_numeration_text(len(self.orderable_list.components)+1, self.orderable_list.components)}{value}"
-    else:
-      numerated_text = ""
+    split_value = value.split(". ")[1:]
+    # if len(split_value) > 1:
+    #   value = ". ".join(split_value)
+    print(split_value)
+    # if getattr(self, "orderable_list", None):
+    #   numerated_text = f"{self._set_numeration_text(len(self.orderable_list.components), self.orderable_list.components)}{value}"
+    # else:
+    numerated_text = value
+
     self._item_text = numerated_text
     self.item_label.text = numerated_text
 
@@ -179,4 +184,9 @@ class ListItem(ListItemTemplate):
     self.orderable_list = self.parent.parent.parent.parent.parent
     self.editable = self.orderable_list.item_editable
     self.allow_remove = self.orderable_list.allow_remove
-    self.it
+
+    split_text = self.item_text.split(". ")
+    if len(split_text) > 1 and self.orderable_list.numeration:
+      self.item_text = f"{self._set_numeration_text(self.index+1, self.orderable_list.components)}{'. '.join(split_text[1:])}"
+    else:
+      self.item_text = f"{self._set_numeration_text(self.index+1, self.orderable_list.components)}{self.item_text}"
