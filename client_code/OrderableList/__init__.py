@@ -20,11 +20,18 @@ class OrderableList(OrderableListTemplate):
   @property
   def components(self):
     return self._dragable_list.components
-    # return self._components
   @components.setter
   def components(self, value):
-    self._dragable_list.components = value or []
-    # self._components = []
+    list_item_check = [isinstance(comp, ListItem) for comp in value or []]
+    is_all_list_items = all(list_item_check)
+    is_any_list_items = any(list_item_check)
+    if is_all_list_items:
+      components = value
+      self._dragable_list.components = components or []
+    elif is_any_list_items:
+      raise ValueError("Items must be all ListItem or all stringable")
+    else:
+      components = self.add_drag_item(value, append=False)
   
   @property
   def order_label_visible(self):
@@ -104,11 +111,14 @@ class OrderableList(OrderableListTemplate):
     """Method to get the sorted list with each item's text"""
     return [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
     
-  def add_drag_item(self, new_texts):
+  def add_drag_item(self, new_texts, append=True):
     """Method to add items to the draggable list"""
     self.order_label_visible = self.order_label_visible
     self.adding = True
-    comps = self._dragable_list.get_sorted_components()
+    if append:
+      comps = self._dragable_list.get_sorted_components()
+    else:
+      comps = []
     if isinstance(new_texts, str):
       comps_len = len(comps)
       comps.append(ListItem(
@@ -167,5 +177,4 @@ class OrderableList(OrderableListTemplate):
   .anvil-role-item.muuri-item-hidden {
   z-index: 0;
   }""")
-    # self.components = [ListItem(item_text=f"{self._set_numeration_text(1, self.components)}Hello Init")]
-    self.components = [ListItem(item_text="Hello Init", index=0)]
+    self.components = self.components

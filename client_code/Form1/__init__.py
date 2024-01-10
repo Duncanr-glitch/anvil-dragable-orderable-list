@@ -42,4 +42,8 @@ class Form1(Form1Template):
     """This method is called when the button is clicked"""
     self.orderable_list_1.components = [ListItem(item_text="Hello world", index=0)]
 
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    self.orderable_list_1.components = [ListItem(item_text="Hello Init", index=0)]
+
 
