@@ -114,12 +114,9 @@ class OrderableList(OrderableListTemplate):
     
   def add_drag_item(self, new_texts, append=True):
     """Method to add items to the draggable list"""
-    self.remove_button_properties = getattr(self, "remove_button_properties", None)
     self.order_label_visible = getattr(self, "order_label_visible", True)
-    self.item_editable = getattr(self, "item_editable", False)
-    self.allow_remove = getattr(self, "allow_remove", False)
     self.adding = True
-    if append:
+    if append and getattr(self, "_dragable_list", None):
       comps = self._dragable_list.get_sorted_components()
     else:
       comps = []
@@ -128,8 +125,8 @@ class OrderableList(OrderableListTemplate):
       comps.append(ListItem(
         item_text=new_texts,
         index=comps_len,
-        allow_remove=self.allow_remove,
-        **(self.remove_button_properties or {})
+        allow_remove=getattr(self, "allow_remove", False),
+        **getattr(self, "remove_button_properties", {})
       ))
     else:
       for text in new_texts:
@@ -137,8 +134,8 @@ class OrderableList(OrderableListTemplate):
         comps.append(ListItem(
           item_text=text,
           index=comps_len,
-          editable=self.item_editable,
-          **(self.remove_button_properties or {})
+          editable=getattr(self, "item_editable", False),
+          **getattr(self, "remove_button_properties", {})
         ))
     self.components = comps
 
