@@ -151,7 +151,7 @@ class OrderableList(OrderableListTemplate):
           **getattr(self, "remove_button_properties", {})
         ))
     self.components = comps
-    self.remove_button_properties = self.remove_button_properties
+    self.remove_button_properties = getattr(self, "remove_button_properties", {})
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
