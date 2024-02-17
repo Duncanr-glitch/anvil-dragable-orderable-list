@@ -22,3 +22,4 @@ custom_component: true
 properties:
 - {name: item_text, type: string, default_value: '', important: true, default_binding_prop: true}
 - {name: index, type: number, important: true}
+- {name: tag, type: string, default_value: '', important: true}
