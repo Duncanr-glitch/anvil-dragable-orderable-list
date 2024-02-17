@@ -128,7 +128,7 @@ class OrderableList(OrderableListTemplate):
         item_text=new_texts,
         index=comps_len,
         allow_remove=self.allow_remove,
-        **self.remove_button_properties
+        **(self.remove_button_properties or {})
       ))
     else:
       for text in new_texts:
@@ -137,7 +137,7 @@ class OrderableList(OrderableListTemplate):
           item_text=text,
           index=comps_len,
           editable=self.item_editable,
-          **self.remove_button_properties
+          **(self.remove_button_properties or {})
         ))
     self.components = comps
 
