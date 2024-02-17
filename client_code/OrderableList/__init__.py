@@ -65,6 +65,7 @@ class OrderableList(OrderableListTemplate):
   @remove_button_properties.setter
   def remove_button_properties(self, value):
     self._remove_button_properties = value
+    print(value)
     if value is not None:
       for prop, val in value.items():
         if getattr(self, "components", None) is not None:
