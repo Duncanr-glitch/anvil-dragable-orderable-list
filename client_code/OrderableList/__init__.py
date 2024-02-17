@@ -46,7 +46,7 @@ class OrderableList(OrderableListTemplate):
     return [item.tag for item in self.components]
   @values.setter
   def values(self, value):
-    self._values = value
+    pass
   
   @property
   def order_label_visible(self):
