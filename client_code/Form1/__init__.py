@@ -10,11 +10,6 @@ class Form1(Form1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.orderable_list_1.remove_button_properties = {
-      "background": "red",
-      "foreground": "yellow"
-    }
-
     # Any code you write here will run when the form opens.
 
   def button_1_click(self, **event_args):
@@ -45,3 +40,7 @@ class Form1(Form1Template):
   def form_show(self, **event_args):
     """This method is called when the form is shown on the page"""
     self.orderable_list_1.components = [ListItem(item_text="Hello Init", index=0)]
+    self.orderable_list_1.remove_button_properties = {
+      "background": "red",
+      "foreground": "yellow"
+    }

@@ -14,6 +14,7 @@ class OrderableList(OrderableListTemplate):
     self._dragable_list = DragableList(drag_enabled=self.drag_enabled)
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
+    
     self.adding = False
     self.rendered = False
 
@@ -65,7 +66,6 @@ class OrderableList(OrderableListTemplate):
   @remove_button_properties.setter
   def remove_button_properties(self, value):
     self._remove_button_properties = value
-    print(value)
     if value is not None:
       for prop, val in value.items():
         if getattr(self, "components", None) is not None:
@@ -114,6 +114,8 @@ class OrderableList(OrderableListTemplate):
     
   def add_drag_item(self, new_texts, append=True):
     """Method to add items to the draggable list"""
+    self.remove_button_properties = getattr(self, "remove_button_properties", None)
+    print(self.remove_button_properties)
     self.order_label_visible = self.order_label_visible
     self.adding = True
     if append:
@@ -179,3 +181,6 @@ class OrderableList(OrderableListTemplate):
   z-index: 0;
   }""")
     self.components = self.components
+
+    self.remove_button_properties = getattr(self, "remove_button_properties", None)
+  
