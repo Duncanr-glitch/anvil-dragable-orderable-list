@@ -137,7 +137,7 @@ class OrderableList(OrderableListTemplate):
       ))
     else:
       for comp_obj in new_texts:
-        if isinstance(text, str):
+        if isinstance(comp_obj, str):
           text = comp_obj
         else:
           text, value = comp_obj
