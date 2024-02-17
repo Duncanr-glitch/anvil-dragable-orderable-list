@@ -10,8 +10,9 @@ from anvil_extras.utils._component_helpers import _html_injector
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self._dragable_list = DragableList(drag_enabled=True)
     self.init_components(**properties)
-    self._dragable_list = DragableList(drag_enabled=self.drag_enabled)
+    self._dragable_list.drag_enabled = self.drag_enabled
     self._dragable_list.set_event_handler(DRAGABLE_LIST_CHANGE_EVENT, self._list_changed)
     self.list_panel.add_component(self._dragable_list)
     
