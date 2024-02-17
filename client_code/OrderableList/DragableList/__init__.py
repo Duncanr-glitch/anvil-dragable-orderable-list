@@ -35,15 +35,11 @@ class DragableList(DragableListTemplate):
   @components.setter
   def components(self, comps) :
       current_comps = self._comps
-      try:
-        if self._comps != comps:
-          self._comps = comps
-          if sorted([comp.item_text for comp in current_comps or []]) != sorted([comp.item_text for comp in comps or []]):
-            self._update_list()
-          self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
-      except anvil.js.ExternalError:
-        # If components are set before the dom loads fully
-        pass
+      if self._comps != comps:
+        self._comps = comps
+        if sorted([comp.item_text for comp in current_comps or []]) != sorted([comp.item_text for comp in comps or []]):
+          self._update_list()
+        self.raise_event(DRAGABLE_LIST_CHANGE_EVENT)
   
   def refresh(self):
     if self._muuri_grid:

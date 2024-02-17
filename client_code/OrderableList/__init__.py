@@ -10,6 +10,7 @@ from anvil_extras.utils._component_helpers import _html_injector
 class OrderableList(OrderableListTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.temp_comps = properties.pop("components", [])
     self._dragable_list = DragableList(drag_enabled=True)
     self.init_components(**properties)
     self._dragable_list.drag_enabled = self.drag_enabled
@@ -90,7 +91,7 @@ class OrderableList(OrderableListTemplate):
   def allow_remove(self, value):
     self._allow_remove = value
     if getattr(self, "rendered", False):
-      for comp in self.components:
+      for comp in getattr(self, "components", self.temp_comps):
         comp.allow_remove = value
 
   def _get_list_item_value(self, comp):
@@ -139,6 +140,7 @@ class OrderableList(OrderableListTemplate):
           **getattr(self, "remove_button_properties", {})
         ))
     self.components = comps
+    self.remove_button_properties = self.remove_button_properties
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
@@ -179,7 +181,7 @@ class OrderableList(OrderableListTemplate):
   .anvil-role-item.muuri-item-hidden {
   z-index: 0;
   }""")
-    self.components = self.components
+    self.components = self.temp_comps
 
     self.remove_button_properties = getattr(self, "remove_button_properties", None)
   
