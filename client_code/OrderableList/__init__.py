@@ -116,6 +116,8 @@ class OrderableList(OrderableListTemplate):
     """Method to add items to the draggable list"""
     self.remove_button_properties = getattr(self, "remove_button_properties", None)
     self.order_label_visible = getattr(self, "order_label_visible", True)
+    self.item_editable = getattr(self, "item_editable", False)
+    self.allow_remove = getattr(self, "allow_remove", False)
     self.adding = True
     if append:
       comps = self._dragable_list.get_sorted_components()
