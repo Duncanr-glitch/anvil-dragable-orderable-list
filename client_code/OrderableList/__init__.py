@@ -28,11 +28,16 @@ class OrderableList(OrderableListTemplate):
     list_item_check = [isinstance(comp, ListItem) for comp in value or []]
     is_all_list_items = all(list_item_check)
     is_any_list_items = any(list_item_check)
+
+    list_tuple_check = [isinstance(comp, tuple) for comp in value or []]    
+    is_all_list_tuples = all(list_tuple_check)
+    is_any_list_tuples = any(list_tuple_check)
+
     if is_all_list_items:
       components = value
       self._dragable_list.components = components or []
-    elif is_any_list_items:
-      raise ValueError("Items must be all ListItem or all stringable")
+    elif is_any_list_items or (not is_all_list_tuples and is_any_list_tuples):
+      raise ValueError("Items must be all ListItem or all stringable or all tuples")
     else:
       components = self.add_drag_item(value, append=False)
   
@@ -131,12 +136,18 @@ class OrderableList(OrderableListTemplate):
         **getattr(self, "remove_button_properties", {})
       ))
     else:
-      for text in new_texts:
+      for comp_obj in new_texts:
+        if isinstance(text, str):
+          text = comp_obj
+        else:
+          text, value = comp_obj
+
         comps_len = len(comps)
         comps.append(ListItem(
           item_text=text,
           index=comps_len,
           editable=getattr(self, "item_editable", False),
+          tag=value,
           **getattr(self, "remove_button_properties", {})
         ))
     self.components = comps
