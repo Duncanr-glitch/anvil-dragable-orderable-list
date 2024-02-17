@@ -40,6 +40,10 @@ class OrderableList(OrderableListTemplate):
       raise ValueError("Items must be all ListItem or all stringable or all tuples")
     else:
       components = self.add_drag_item(value, append=False)
+
+  @property
+  def values(self):
+    return [item.tag for item in self.components]
   
   @property
   def order_label_visible(self):
@@ -133,12 +137,13 @@ class OrderableList(OrderableListTemplate):
         item_text=new_texts,
         index=comps_len,
         allow_remove=getattr(self, "allow_remove", False),
+        tag=new_texts,
         **getattr(self, "remove_button_properties", {})
       ))
     else:
       for comp_obj in new_texts:
         if isinstance(comp_obj, str):
-          text = comp_obj
+          text = value = comp_obj
         else:
           text, value = comp_obj
 

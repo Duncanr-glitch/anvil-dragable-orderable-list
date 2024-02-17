@@ -19,6 +19,10 @@ properties:
 - {name: visible, type: boolean, default_value: true, important: true}
 - {name: order_label_visible, type: boolean, default_value: true, important: true}
 - {name: components, type: object, important: true}
+- name: values
+  type: text[]
+  default_value: []
+  important: true
 is_package: true
 events:
 - {name: list_changed, description: when the length or order of the list change, default_event: true}
