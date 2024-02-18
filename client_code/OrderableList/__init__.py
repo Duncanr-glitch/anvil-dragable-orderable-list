@@ -141,7 +141,7 @@ class OrderableList(OrderableListTemplate):
         index=comps_len,
         allow_remove=getattr(self, "allow_remove", False),
         tag=new_texts,
-        **getattr(self, "remove_button_properties", {})
+        **getattr(self, "remove_button_properties", {}) or {}
       ))
     else:
       for comp_obj in new_texts:
@@ -156,10 +156,10 @@ class OrderableList(OrderableListTemplate):
           index=comps_len,
           editable=getattr(self, "item_editable", False),
           tag=value,
-          **getattr(self, "remove_button_properties", {})
+          **getattr(self, "remove_button_properties", {}) or {}
         ))
     self.components = comps
-    self.remove_button_properties = getattr(self, "remove_button_properties", {})
+    self.remove_button_properties = getattr(self, "remove_button_properties", {}) or {}
 
   def remove_drag_item(self, indices):
     """Method to remove items from the draggable list"""
