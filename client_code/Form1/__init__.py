@@ -40,6 +40,7 @@ class Form1(Form1Template):
   def form_show(self, **event_args):
     """This method is called when the form is shown on the page"""
     self.orderable_list_1.components = [ListItem(item_text="Hello Init", index=0)]
+    print(self.orderable_list_1.remove_button_properties)
     self.orderable_list_1.remove_button_properties = {
       "background": "red",
       "foreground": "yellow"
