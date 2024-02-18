@@ -117,8 +117,9 @@ class OrderableList(OrderableListTemplate):
     if self.numeration and not self.adding:
       new_comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
       current_comp_texts = [self._get_list_item_value(item) for item in self.components]
+      current_vals = self.values
       if new_comp_texts != current_comp_texts:
-        self.components = [ListItem(item_text=comp_text, index=index) for index, comp_text in enumerate(new_comp_texts)]
+        self.components = [ListItem(item_text=comp_text, index=index, tag=self.values[index]) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
     self.raise_event("list_changed")
     
