@@ -26,7 +26,7 @@ class DragableList(DragableListTemplate):
   @drag_enabled.setter
   def drag_enabled(self, value):
     self._drag_enabled = value
-    if getattr(self, "rendered", None):
+    if getattr(self, "rendered", None) and self.rendered:
       self._update_list()
     
   @property
@@ -125,3 +125,4 @@ class DragableList(DragableListTemplate):
   def form_show(self, **event_args):
     """This method is called when the form is shown on the page"""
     self.rendered = True
+    self.components = self.components
