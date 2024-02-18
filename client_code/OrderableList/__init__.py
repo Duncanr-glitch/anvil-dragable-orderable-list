@@ -115,11 +115,12 @@ class OrderableList(OrderableListTemplate):
     self.order_label.text = f'{self.order_title} = {self.get_ordered_comps()}'
 
     if self.numeration and not self.adding:
-      new_comp_texts = [self._get_list_item_value(comp) for comp in self._dragable_list.get_sorted_components()]
+      current_comps = self._dragable_list.get_sorted_components()
+      new_comp_texts = [self._get_list_item_value(comp) for comp in current_comps]
+      new_comp_vals = [comp.tag for comp in current_comps]
       current_comp_texts = [self._get_list_item_value(item) for item in self.components]
-      current_vals = self.values
       if new_comp_texts != current_comp_texts:
-        self.components = [ListItem(item_text=comp_text, index=index, tag=self.values[index]) for index, comp_text in enumerate(new_comp_texts)]
+        self.components = [ListItem(item_text=comp_text, index=index, tag=new_comp_vals[]) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
     self.raise_event("list_changed")
     
