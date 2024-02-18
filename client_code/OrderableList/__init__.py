@@ -120,7 +120,7 @@ class OrderableList(OrderableListTemplate):
       new_comp_vals = [comp.tag for comp in current_comps]
       current_comp_texts = [self._get_list_item_value(item) for item in self.components]
       if new_comp_texts != current_comp_texts:
-        self.components = [ListItem(item_text=comp_text, index=index, tag=new_comp_vals[]) for index, comp_text in enumerate(new_comp_texts)]
+        self.components = [ListItem(item_text=comp_text, index=index, tag=new_comp_vals[index]) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
     self.raise_event("list_changed")
     
