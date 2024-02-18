@@ -33,7 +33,8 @@ class ListItem(ListItemTemplate):
     self._item_text = value
     if self.item_label.text != value:
       self.item_label.text = value
-      self.orderable_list.raise_event("list_changed")
+      if getattr(self, "orderable_list", None):
+        self.orderable_list.raise_event("list_changed", new_value=value)
 
   @property
   def editable(self):
