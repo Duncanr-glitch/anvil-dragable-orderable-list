@@ -34,7 +34,7 @@ class ListItem(ListItemTemplate):
     if self.item_label.text != value:
       self.item_label.text = value
       if getattr(self, "orderable_list", None):
-        self.orderable_list.raise_event("list_changed", mode="item", new_value=self.orderable_list._get_list_item_value(self), index=self.index)
+        self.orderable_list.raise_event("list_changed", mode="edit", new_value=self.orderable_list._get_list_item_value(self), index=self.index)
 
   @property
   def editable(self):
@@ -142,12 +142,14 @@ class ListItem(ListItemTemplate):
 
   def remove_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    confirm_remove = True
     if self.orderable_list.confirm_removal:
       confirm_remove = confirm(self.orderable_list.removal_alert_message.replace("{item_text}", "self.item_text"))
-
+    else:
+      confirm_remove = True
+      
     if confirm_remove:
       self.orderable_list.remove_drag_item(self.index)
+      self.orderable_list.raise_event("list_changed", mode="remove", index=self.index)
 
   def start_edit_item_text(self, **event_args):
     self.item_lbl_card.remove_from_parent()
