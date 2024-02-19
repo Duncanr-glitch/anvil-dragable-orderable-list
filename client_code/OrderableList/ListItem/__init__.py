@@ -34,7 +34,7 @@ class ListItem(ListItemTemplate):
     if self.item_label.text != value:
       self.item_label.text = value
       if getattr(self, "orderable_list", None):
-        self.orderable_list.raise_event("list_changed", new_value=self.orderable_list._get_list_item_value(self), mode="item")
+        self.orderable_list.raise_event("list_changed", mode="item", new_value=self.orderable_list._get_list_item_value(self), index=self.index)
 
   @property
   def editable(self):
@@ -48,7 +48,8 @@ class ListItem(ListItemTemplate):
       try:
         augment.remove_event_handler(self.item_lbl_card, "dblclick", self.start_edit_item_text)
       except (ValueError, LookupError):
-        print("Event doesn't exist, skipping")
+        # Event doesn't exist, skipping
+        pass
 
   @property
   def allow_remove(self):
