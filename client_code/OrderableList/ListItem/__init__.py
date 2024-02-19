@@ -148,8 +148,8 @@ class ListItem(ListItemTemplate):
       confirm_remove = True
       
     if confirm_remove:
-      self.orderable_list.remove_drag_item(self.index)
       self.orderable_list.raise_event("list_changed", mode="remove", index=self.index)
+      self.orderable_list.remove_drag_item(self.index)
 
   def start_edit_item_text(self, **event_args):
     self.item_lbl_card.remove_from_parent()
