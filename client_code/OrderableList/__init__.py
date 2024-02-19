@@ -122,7 +122,7 @@ class OrderableList(OrderableListTemplate):
       if new_comp_texts != current_comp_texts:
         self.components = [ListItem(item_text=comp_text, index=index, tag=new_comp_vals[index]) for index, comp_text in enumerate(new_comp_texts)]
     self.adding = False
-    self.raise_event("list_changed")
+    self.raise_event("list_changed", mode="list")
     
   def get_ordered_comps(self):
     """Method to get the sorted list with each item's text"""
